@@ -2,73 +2,91 @@ package org.exercise.Main;
 
 import org.exercise.model.Evento;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        try {
-            // Richiesta dei dettagli dell'evento all'utente
-            System.out.print("Inserisci il titolo dell'evento: ");
-            String titolo = scanner.nextLine();
+        // Creazione di tre eventi predefiniti
+        List<Evento> eventi = new ArrayList<>();
+        eventi.add(new Evento("Concerto Rock", "15/06/2024", 100));
+        eventi.add(new Evento("Conferenza Tech", "10/09/2024", 200));
+        eventi.add(new Evento("Spettacolo Teatrale", "20/12/2024", 150));
 
-            System.out.print("Inserisci la data di inizio (formato YYYY-MM-DD): ");
-            String dataInput = scanner.nextLine();
-            LocalDate data = LocalDate.parse(dataInput);
+        boolean running = true;
 
-            System.out.print("Inserisci il numero totale di posti: ");
-            int numeroPostiTotali = Integer.parseInt(scanner.nextLine());
+        while (running) {
+            try {
+                System.out.println("Seleziona un evento:");
+                for (int i = 0; i < eventi.size(); i++) {
+                    System.out.println((i + 1) + ". " + eventi.get(i));
+                }
 
-            Evento evento = new Evento(titolo, data, numeroPostiTotali);
-            System.out.println(evento);
+                int scelta = Integer.parseInt(scanner.nextLine()) - 1;
 
-            boolean continua = true;
-            while (continua) {
-                System.out.print("Vuoi prenotare o disdire posti? (prenota/disdici/esci): ");
-                String azione = scanner.nextLine();
+                if (scelta < 0 || scelta >= eventi.size()) {
+                    System.out.println("Scelta non valida. Riprova.");
+                    continue;
+                }
 
-                switch (azione.toLowerCase()) {
-                    case "prenota":
-                        System.out.print("Quanti posti vuoi prenotare?: ");
-                        int postiPrenotare = Integer.parseInt(scanner.nextLine());
-                        try {
-                            evento.prenota(postiPrenotare);
-                            System.out.println("Posti prenotati con successo. Posti attualmente prenotati: " + evento.getNumeroPostiPrenotati());
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("Errore: " + e.getMessage());
-                        }
-                        break;
+                Evento eventoSelezionato = eventi.get(scelta);
 
-                    case "disdici":
-                        System.out.print("Quanti posti vuoi disdire?: ");
-                        int postiDisdire = Integer.parseInt(scanner.nextLine());
-                        try {
-                            evento.disdici(postiDisdire);
-                            System.out.println("Posti disdetti con successo. Posti attualmente prenotati: " + evento.getNumeroPostiPrenotati());
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("Errore: " + e.getMessage());
-                        }
-                        break;
+                System.out.println("Hai selezionato: " + eventoSelezionato);
 
-                    case "esci":
-                        continua = false;
-                        break;
+                boolean eventoAttivo = true;
 
-                    default:
-                        System.out.println("Azione non riconosciuta. Riprova.");
+                while (eventoAttivo) {
+                    System.out.println("Scegli un'operazione: prenota, disdici, esci");
+                    String operazione = scanner.nextLine();
+
+                    switch (operazione.toLowerCase()) {
+                        case "prenota":
+                            System.out.println("Quanti posti vuoi prenotare?");
+                            int postiPrenotare = Integer.parseInt(scanner.nextLine());
+
+                            try {
+                                eventoSelezionato.prenota(postiPrenotare);
+                                System.out.println("Prenotazione avvenuta con successo. Posti prenotati: " + eventoSelezionato.getNumeroPostiPrenotati());
+                            } catch (IllegalArgumentException e) {
+                                System.out.println("Errore nella prenotazione: " + e.getMessage());
+                            }
+                            break;
+
+                        case "disdici":
+                            System.out.println("Quanti posti vuoi disdire?");
+                            int postiDisdire = Integer.parseInt(scanner.nextLine());
+
+                            try {
+                                eventoSelezionato.disdici(postiDisdire);
+                                System.out.println("Disdetta avvenuta con successo. Posti prenotati: " + eventoSelezionato.getNumeroPostiPrenotati());
+                            } catch (IllegalArgumentException e) {
+                                System.out.println("Errore nella disdetta: " + e.getMessage());
+                            }
+                            break;
+
+                        case "esci":
+                            eventoAttivo = false;
+                            break;
+
+                        default:
+                            System.out.println("Operazione non valida. Riprova.");
+                    }
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Formato numero non valido. Riprova.");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Errore: " + e.getMessage());
+            } finally {
+                System.out.println("Vuoi selezionare un altro evento? (si/no)");
+                if (!scanner.nextLine().equalsIgnoreCase("si")) {
+                    running = false;
                 }
             }
-
-        } catch (DateTimeParseException e) {
-            System.out.println("Errore: La data inserita non è valida.");
-        } catch (IllegalArgumentException e) {
-            System.out.println("Errore: " + e.getMessage());
         }
 
         scanner.close();
-        System.out.println("Grazie per aver utilizzato il programma di gestione eventi!");
     }
 }
