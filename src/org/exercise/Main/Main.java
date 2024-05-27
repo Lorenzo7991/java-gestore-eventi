@@ -1,8 +1,8 @@
 package org.exercise.Main;
-
+//Importazione modelli
 import org.exercise.model.Evento;
 import org.exercise.model.Concerto;
-
+//Importazione utilità java
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,23 +11,28 @@ import java.math.BigDecimal;
 
 public class Main {
     public static void main(String[] args) {
+        //Inizializzazione oggeto scanner
         Scanner scanner = new Scanner(System.in);
+        //Inizializzazione lista per memorizzare gli eventi creati
         List<Evento> eventiCreati = new ArrayList<>();
 
+        //Flag per continuare la creazione degli eventi
         boolean continuaCreazione = true;
 
+        //Ciclo principale per la creazione degli eventi su valore Flag
         while (continuaCreazione) {
             boolean eventoValido = false;
             Evento evento;
-
+            //Ciclo per la validazione dell'evento inserito
             while (!eventoValido) {
                 try {
-                    //Chiede all'utente che tipo di evento vuole creare
+                    //Richiesta all'utente del tipo di evento che vuole creare
                     System.out.println("Che tipo di evento vuoi creare? (evento/concerto)");
                     String tipoEvento = scanner.nextLine().toLowerCase();
 
                     //Creazione dell'evento in base alla scelta dell'utente
                     if (tipoEvento.equals("evento")) {
+                        //Creazione di un evento generico
                         System.out.println("Inserisci il titolo dell'evento:");
                         String titolo = scanner.nextLine();
 
@@ -39,6 +44,7 @@ public class Main {
 
                         evento = new Evento(titolo, dataString, numeroPostiTotali);
                     } else if (tipoEvento.equals("concerto")) {
+                        //Creazione di un concerto
                         System.out.println("Inserisci il titolo del concerto:");
                         String titolo = scanner.nextLine();
 
@@ -58,16 +64,17 @@ public class Main {
                     } else {
                         throw new IllegalArgumentException("Scelta non valida. Riprova.");
                     }
-
+                    //Aggiunta dell'evento alla lista degli eventi creati
                     eventiCreati.add(evento);
-
+                    //Flag per impostare l'evento come valido
                     eventoValido = true;
                     System.out.println("Evento creato con successo: " + evento);
 
-                    //Chiedere all'utente se vuole creare un altro evento
+                    //Richiesta all'utente per creare un altro evento
                     System.out.println("Vuoi creare un altro evento? (sì/no)");
                     String risposta = scanner.nextLine().toLowerCase();
                     if (risposta.equals("no")) {
+                        //Se la risposta è 'no', la Flag cambia e si interrompe la creazione degli eventi
                         continuaCreazione = false;
                     }
 
@@ -85,7 +92,7 @@ public class Main {
             System.out.println(evento);
         }
         System.out.println("Programma terminato...");
-
+        //Chiusura oggetto scanner
         scanner.close();
     }
 }
