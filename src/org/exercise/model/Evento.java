@@ -27,7 +27,7 @@ public class Evento {
         if (numeroPostiTotali <= 0) {
             throw new IllegalArgumentException("Il numero di posti totali deve essere positivo.");
         }
-        if (!isValidTitolo(titolo)) {
+        if (isValidTitolo(titolo)) {
             throw new IllegalArgumentException("Il titolo non può contenere numeri o simboli.");
         }
 
@@ -56,7 +56,7 @@ public class Evento {
 
     // Metodi setter
     public void setTitolo(String titolo) {
-        if (!isValidTitolo(titolo)) {
+        if (isValidTitolo(titolo)) {
             throw new IllegalArgumentException("Il titolo non può contenere numeri o simboli.");
         }
         this.titolo = titolo;
@@ -80,7 +80,7 @@ public class Evento {
 
     // Metodo per validare il titolo
     private boolean isValidTitolo(String titolo) {
-        return titolo.matches("[a-zA-Z\\s]+");
+        return !titolo.matches("[a-zA-Z\\s]+");
     }
 
     // Metodo per prenotare posti
