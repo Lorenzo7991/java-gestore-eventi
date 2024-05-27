@@ -1,9 +1,12 @@
 package org.exercise.Main;
 
 import org.exercise.model.Evento;
+import org.exercise.model.Concerto;
 
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
+import java.math.BigDecimal;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -80,6 +83,16 @@ public class Main {
                     System.out.println("Operazione non valida. Riprova.");
             }
         }
+
+        System.out.println("Test classe concerto...");
+        //Test classe Concerto
+        Concerto concerto1 = new Concerto("Concerto Rock", "01/06/2024", 200, "20:00", new BigDecimal("20.00"));
+        Concerto concerto2 = new Concerto("Concerto Jazz", "15/06/2024", 150, "18:30", new BigDecimal("15.50"));
+
+        //Stampa test classe Concerto
+        System.out.println("Evento 1: " + concerto1);
+        System.out.println("Evento 2: " + concerto2);
+
 
         scanner.close();
     }
