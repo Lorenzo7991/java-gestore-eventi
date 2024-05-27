@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ProgrammEventi {
-    // Attributi
+    //Attributi
     private final String titolo;
     private final List<Evento> eventi;
 
@@ -18,6 +18,8 @@ public class ProgrammEventi {
         this.titolo = titolo;
         this.eventi = new ArrayList<>();
     }
+
+    //Metodi custom...
 
     // Metodo per restituire una lista di eventi in una certa data
     public List<Evento> eventiInData(LocalDate data) {
@@ -54,3 +56,5 @@ public class ProgrammEventi {
         return stringBuilder.toString();
     }
 }
+
+
